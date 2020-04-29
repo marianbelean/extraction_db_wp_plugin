@@ -1,0 +1,46 @@
+$servername = "localhost:3306";
+$username = "padmin";
+$password = "XPWU-<0B%&:f?}J";
+$dbname = "idmsc";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT proiect_titlu, proiect_img1, proiect_img2, autori_nume, autori_pren FROM wp_proiect, wp_autori";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    // 3 per row, so we will count everytime we output 3 projects
+	$data_counter = 0;
+	
+	echo "<div class='container-participanti'>";
+    while($row = $result->fetch_assoc()) {
+		
+		
+		echo "<div class='proiect-participant'>";
+		echo "<img src='{$row['proiect_img1']}'>". "<br>";
+		echo "<img src='{$row['proiect_img2']}' >". "<br>";
+		echo  "TITLU PROIECT: " .$row["proiect_titlu"]. "<br>";
+		echo  "NUME AUTOR: " .$row["autori_nume"]. "   ". "PRENUME AUTOR: " . $row["autori_pren"]."<br>";
+		echo "</div>";
+
+		
+		$data_counter++;
+		if($data_counter == 15) {
+			break;
+		}
+	
+    }
+} else {
+    echo "0 results";
+}
+		
+		echo "</div>";
+$conn->close();
+
+
